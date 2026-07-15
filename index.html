@@ -264,6 +264,43 @@ header::before{content:'';position:absolute;inset:0;background:
 .simrow{display:grid;grid-template-columns:52px 1fr auto;gap:9px;align-items:center;font-size:11.5px;color:var(--ink-2);font-weight:600}
 .simbar{height:9px;border-radius:999px;background:var(--line);overflow:hidden}
 .simbar span{display:block;height:100%;background:linear-gradient(90deg,var(--ok),#5CC98A);border-radius:999px}
+/* ---------- comparar mallas ---------- */
+.cmpsel{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:14px}
+.cmpsel select{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:8px 9px;font:inherit;font-size:12.5px;font-weight:600;background:var(--card)}
+.cmpsel select:focus{border-color:var(--navy);outline:none}
+.cmpsel .vs{font-family:'Archivo',sans-serif;font-weight:800;color:var(--ink-2);font-size:13px}
+.cmpstats{display:flex;gap:8px;margin-bottom:12px}
+.cmpstat{flex:1;text-align:center;border:1.5px solid var(--line);border-radius:10px;padding:9px 6px}
+.cmpstat .n{font-family:'Archivo',sans-serif;font-weight:800;font-size:20px}
+.cmpstat .l{font-size:10.5px;color:var(--ink-2);font-weight:600;margin-top:2px}
+.cmpstat.a .n{color:var(--navy)}
+.cmpstat.b .n{color:var(--warn)}
+.cmpstat.c .n{color:var(--ok)}
+.cmpcols{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:44vh;overflow-y:auto}
+.cmpcol h5{font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:700;padding:7px 9px;border-radius:8px;margin-bottom:7px;position:sticky;top:0}
+.cmpcol.a h5{background:#EAF1FB;color:var(--navy)}
+.cmpcol.b h5{background:#FBE9E4;color:var(--warn)}
+.cmpitem{font-size:11.5px;padding:5px 8px;border-radius:6px;margin-bottom:4px;line-height:1.3;font-weight:500}
+.cmpitem.only{font-weight:700}
+.cmpcol.a .cmpitem.only{background:#EAF1FB}
+.cmpcol.b .cmpitem.only{background:#FBE9E4}
+.cmpitem .s{font-size:9.5px;color:var(--ink-2);font-weight:600}
+.cmphint{font-size:11px;color:var(--ink-2);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+.cmphint i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+.cmphint b{width:11px;height:11px;border-radius:3px;display:inline-block}
+/* ---------- horarios en el panel ---------- */
+.horsec{border:1.5px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:8px}
+.horsec:last-child{margin-bottom:0}
+.horsec .hp{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.horsec .sec{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;background:var(--navy);color:#fff;border-radius:6px;padding:2px 8px}
+.horsec .prof{font-weight:700;font-size:13px}
+.horsec .row{display:flex;gap:8px;align-items:baseline;font-size:12px;margin-top:4px;line-height:1.35}
+.horsec .row .tag{flex:none;font-family:'Archivo',sans-serif;font-weight:700;font-size:10px;letter-spacing:.03em;color:#fff;border-radius:5px;padding:1px 6px}
+.horsec .row .tag.cat{background:var(--ok)}
+.horsec .row .tag.ayu{background:var(--amber)}
+.horsec .row .txt{color:var(--ink);font-weight:600}
+.horcopy{margin-top:8px;width:100%;border:1.5px solid var(--line);border-radius:8px;padding:7px;font-weight:600;font-size:12px;color:var(--ink-2)}
+.horcopy:hover{border-color:var(--navy);color:var(--navy)}
 /* ---------- compartir foto ---------- */
 .shotmenu{position:fixed;z-index:120;background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);overflow:hidden;min-width:168px;display:none}
 .shotmenu.show{display:block}
@@ -424,6 +461,7 @@ header::before{content:'';position:absolute;inset:0;background:
   </span>
   <button class="ghost" id="btnPlan">🗓️ Próximo semestre</button>
   <button class="ghost" id="btnSim">🎓 Simular egreso</button>
+  <button class="ghost" id="btnCmp">⚖️ Comparar mallas</button>
   <button class="ghost" id="btnCalc">🧮 Calculadora de nota</button>
   <span id="legend" hidden="">
     <i><b style="background:var(--amber)"></b> prerrequisitos</i>
@@ -457,6 +495,7 @@ header::before{content:'';position:absolute;inset:0;background:
     <div class="sect" id="dCalcSect" hidden><h4>Calculadora de nota</h4><div id="dCalc"></div></div>
     <div class="sect" id="dSlipSect" hidden=""><h4>Si lo repruebas</h4><div class="slip" id="dSlip"></div></div>
     <div class="sect" id="dReqSect" hidden=""><h4>Requisito de créditos</h4><div id="dReq"></div></div>
+    <div class="sect" id="dHorSect" hidden><h4>Programación Cursos · <span id="dHorPer"></span></h4><div id="dHor"></div></div>
     <div class="sect"><h4>Prerrequisitos</h4><div id="dPre"></div></div>
     <div class="sect"><h4>Abre paso a</h4><div id="dPost"></div></div>
     <div class="sect" id="dNotaSect" hidden=""><div class="nota" id="dNota"></div></div>
@@ -466,6 +505,7 @@ header::before{content:'';position:absolute;inset:0;background:
 <div class="foot">
   <span>Cada crédito ≈ <b>1,5 h de estudio semanal</b> fuera de cátedra.</span>
   <span>Datos extraídos de las mallas oficiales FEN · verifica siempre con Secretaría de Estudios.</span>
+  <a id="btnReport" href="#" style="color:var(--gold);font-weight:700;text-decoration:none">✉ Reportar un error</a>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -481,6 +521,14 @@ header::before{content:'';position:absolute;inset:0;background:
     <h3 id="calcTitle">🧮 Calculadora de nota <button class="ghost shotbtn" id="calcShot" data-shotbtn="1" style="float:right;font-size:12px;padding:5px 10px">📷 Foto</button></h3>
     <p>Pon el % y la nota de cada evaluación. Deja una en blanco y te digo qué necesitas ahí para llegar a tu meta.</p>
     <div id="calcSuelta"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="cmpBg" role="dialog" aria-modal="true" aria-labelledby="cmpTitle">
+  <div class="modal" style="max-width:640px">
+    <h3 id="cmpTitle">⚖️ Comparar mallas <button class="ghost shotbtn" id="cmpShot" data-shotbtn="1" style="float:right;font-size:12px;padding:5px 10px">📷 Foto</button></h3>
+    <p>Elige dos mallas y mira qué ramos comparten y en qué se diferencian. Útil para decidir entre licenciaturas o entre plan nuevo y anterior.</p>
+    <div id="cmpBody"></div>
   </div>
 </div>
 
@@ -512,6 +560,7 @@ header::before{content:'';position:absolute;inset:0;background:
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="data.js"></script>
+<script src="horarios.js"></script>
 <script>
 'use strict';
 /* ---------- storage seguro ---------- */
@@ -749,6 +798,7 @@ function openDrawer(id){
     ss.hidden = false;
     $('#dSlip').innerHTML = `Destraba <b>${nDesc}</b> ramo${nDesc>1?'s':''} aguas abajo, pero hay holgura: recursándolo al semestre siguiente no se corre ninguno.`;
   } else ss.hidden = true;
+  renderHorarios(c);
   const rs = $('#dReqSect');
   if (c.reqCred){
     rs.hidden = false;
@@ -768,6 +818,68 @@ function openDrawer(id){
   $('#drawer').classList.add('open'); $('#overlay').classList.add('show');
 }
 function closeDrawer(){ $('#drawer').classList.remove('open'); $('#overlay').classList.remove('show'); }
+
+/* ---------- programación cursos (docenciaweb, datos fijos) ---------- */
+const _normHor = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+// nombres de la malla que en DocenciaWeb se llaman distinto
+const HOR_ALIAS = {
+  'introduccionalmarketing':'marketing',
+  'introduccionalasfinanzas':'finanzas',
+  'introduccionalagestiondepersonas':'gestiondepersonas',
+  'aplicacionesdemanejodedatos':'programacionparaanaliticadedatos',
+  'tecnologiaysistemasdeinformacion':'tecnologiaysistemasdeinformacion',
+  'tecnologiasysistemasdeinformacion':'tecnologiaysistemasdeinformacion',
+  'contabilidadi':'contabilidad',
+  'contabilidadii':'contabilidadfinanciera',
+  'ingles':'inglesi',
+  'sistemastributacionenlarenta':'sistemasdetributacionenlarenta',
+  'estrategiaypresupuesto':'estrategiaypresupuestos',
+  'sistemadeadministraciondebasesdedatos':'sistemasdeadministraciondebasesdedatos',
+  'costos':'fundamentosdecostos',
+  'derechocomercial':'derechoyempresa',
+  'eticaprofesional':'eticaynegocios',
+  'estadisticai':'estadisticai',
+  'metodoscuantitativosi':'metodoscuantitativosi',
+};
+let _horByName = null;
+function findHorario(c){
+  const H = window.HORARIOS;
+  if (!H || !H.ramos) return null;
+  if (c.code && H.ramos[c.code]) return H.ramos[c.code].secciones || H.ramos[c.code];
+  if (!_horByName){
+    _horByName = {};
+    for (const [k,v] of Object.entries(H.ramos))
+      if (v._nombre) _horByName[_normHor(v._nombre)] = v;
+  }
+  const key = _normHor(c.nombre);
+  const hit = _horByName[key] || _horByName[HOR_ALIAS[key]||''];
+  return hit ? (hit.secciones || hit) : null;
+}
+function renderHorarios(c){
+  const sect = $('#dHorSect');
+  const secs = findHorario(c);
+  if (!secs || !secs.length){ sect.hidden = true; return; }
+  sect.hidden = false;
+  $('#dHorPer').textContent = window.HORARIOS.periodo || '';
+  const many = secs.length > 4;
+  $('#dHor').innerHTML =
+    (many?`<div style="font-size:11.5px;color:var(--ink-2);margin-bottom:8px;font-weight:600">${secs.length} secciones disponibles</div>`:'') +
+    secs.map(s=>`
+    <div class="horsec">
+      <div class="hp"><span class="sec">Sec ${s.seccion||'—'}</span><span class="prof">${s.profe||'Profesor por confirmar'}</span></div>
+      ${s.cat?`<div class="row"><span class="tag cat">CÁT</span><span class="txt">${s.cat}</span></div>`:''}
+      ${s.ayu?`<div class="row"><span class="tag ayu">AYU</span><span class="txt">${s.ayu}</span></div>`:''}
+    </div>`).join('') +
+    `<button class="horcopy" data-horcopy>📋 Copiar programación</button>`;
+  $('#dHor').querySelector('[data-horcopy]').onclick = ()=>{
+    const txt = `${c.nombre} · ${window.HORARIOS.periodo}\n` + secs.map(s=>
+      `Sec ${s.seccion||'—'} · ${s.profe||''}` + (s.cat?`\n  Cátedra: ${s.cat}`:'') + (s.ayu?`\n  Ayudantía: ${s.ayu}`:'')
+    ).join('\n');
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(txt).then(()=>toast('Programación copiada'),()=>{});
+    else toast('No se pudo copiar');
+  };
+}
+
 $('#dClose').onclick = ()=>{ sel=null; applyHighlight(); closeDrawer(); };
 $('#overlay').onclick = $('#dClose').onclick;
 $('#drawer').addEventListener('click', e=>{
@@ -1489,6 +1601,96 @@ $('#simShot').onclick = (e)=>{
   });
 };
 
+/* ---------- comparar mallas ---------- */
+const ALL_TAGS = [
+  ['new_ic_la','Ing. Comercial · Admin (2026)'],
+  ['new_ic_le','Ing. Comercial · Economía (2026)'],
+  ['new_ca','Contador Auditor (2026)'],
+  ['new_iicg','Info. y Control de Gestión (2026)'],
+  ['old_ic_la','Ing. Comercial · Admin (anterior)'],
+  ['old_ic_le','Ing. Comercial · Economía (anterior)'],
+  ['old_ca','Contador Auditor (anterior)'],
+  ['old_iicg','Info. y Control de Gestión (anterior)'],
+];
+const normName = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+let cmpA = null, cmpB = null;
+function renderCmp(){
+  const body = $('#cmpBody');
+  const opts = tag => ALL_TAGS.map(([t,l])=>`<option value="${t}" ${t===tag?'selected':''}>${l}</option>`).join('');
+  const MA = window.MALLAS[cmpA], MB = window.MALLAS[cmpB];
+  const setB = new Map(MB.cursos.map(c=>[normName(c.nombre),c]));
+  const setA = new Map(MA.cursos.map(c=>[normName(c.nombre),c]));
+  const oA = MA.cursos.filter(c=>!setB.has(normName(c.nombre)));
+  const oB = MB.cursos.filter(c=>!setA.has(normName(c.nombre)));
+  const common = MA.cursos.filter(c=>setB.has(normName(c.nombre)));
+  const li = (c)=>`<div class="cmpitem only">${c.nombre}<span class="s"> · S${c.sem} · ${c.cred}cr</span></div>`;
+  body.innerHTML = `
+    <div class="cmpsel">
+      <select id="cmpSelA">${opts(cmpA)}</select>
+      <span class="vs">vs</span>
+      <select id="cmpSelB">${opts(cmpB)}</select>
+    </div>
+    <div class="cmpstats">
+      <div class="cmpstat a"><div class="n">${oA.length}</div><div class="l">solo izquierda</div></div>
+      <div class="cmpstat c"><div class="n">${common.length}</div><div class="l">en común</div></div>
+      <div class="cmpstat b"><div class="n">${oB.length}</div><div class="l">solo derecha</div></div>
+    </div>
+    <div class="cmpcols">
+      <div class="cmpcol a"><h5>Solo en ${shortName(cmpA)}</h5>${oA.length?oA.map(li).join(''):'<div class="cmpitem" style="color:var(--ink-2)">Sin ramos exclusivos</div>'}</div>
+      <div class="cmpcol b"><h5>Solo en ${shortName(cmpB)}</h5>${oB.length?oB.map(li).join(''):'<div class="cmpitem" style="color:var(--ink-2)">Sin ramos exclusivos</div>'}</div>
+    </div>
+    <div class="cmphint">
+      <i><b style="background:#EAF1FB"></b> exclusivo izquierda</i>
+      <i><b style="background:#FBE9E4"></b> exclusivo derecha</i>
+      <span style="margin-left:auto">Comparación por nombre de ramo.</span>
+    </div>`;
+  $('#cmpSelA').onchange = e=>{ cmpA=e.target.value; renderCmp(); };
+  $('#cmpSelB').onchange = e=>{ cmpB=e.target.value; renderCmp(); };
+}
+function shortName(tag){ return (ALL_TAGS.find(t=>t[0]===tag)||[,''])[1].replace(/ \(.*\)/,''); }
+$('#btnCmp').onclick = ()=>{
+  // por defecto: la malla actual vs su contraparte lógica (la otra licenciatura o el otro plan)
+  cmpA = tagOf();
+  cmpB = cmpA.startsWith('new')
+    ? cmpA.replace('new','old')                    // vs plan anterior
+    : cmpA.replace('old','new');
+  if (!window.MALLAS[cmpB]) cmpB = ALL_TAGS.find(t=>t[0]!==cmpA)[0];
+  renderCmp();
+  $('#cmpBg').classList.add('show');
+};
+$('#cmpBg').addEventListener('click', e=>{ if(e.target.id==='cmpBg') $('#cmpBg').classList.remove('show'); });
+$('#cmpShot').onclick = (e)=>{
+  e.stopPropagation();
+  openShotMenu(e.currentTarget, {
+    title:'Compartir comparación', name:'mallas-fen-comparar',
+    make:()=> shoot(inner=>{ inner.appendChild(cloneVisible($('#cmpBody'))); }, {width:640, subtitle:'Comparación de mallas'})
+  });
+};
+
+/* ---------- reportar error ---------- */
+$('#btnReport').onclick = (e)=>{
+  e.preventDefault();
+  const M = malla();
+  const asunto = `[Mallas FEN] Error en ${M.carrera} · ${M.plan}`;
+  const cuerpo =
+`Hola, encontré un posible error en Mallas FEN.
+
+Carrera: ${M.carrera}
+Licenciatura: ${M.lic}
+Plan: ${M.plan}
+
+Ramo(s) con el error:
+(ej: "Finanzas I debería tener como prerrequisito X")
+
+
+Qué debería decir:
+
+
+¡Gracias!`;
+  window.location.href = `mailto:agustin.leyton.b@gmail.com?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+};
+
+/* ---------- reportar error (fin) ---------- */
 function initHash(){
   const h = location.hash.slice(1);
   if (!h) return false;

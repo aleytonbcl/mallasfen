@@ -28,6 +28,13 @@ con su **Malla 2026** y su **malla anterior** (8 mallas en total).
   herramienta suelta (botón en la barra) y dentro de cada ramo, guardándose junto al avance.
 - **🗓️ Próximo semestre**: lista los ramos que ya tienes habilitados (prerrequisitos
   y créditos cumplidos) y te deja armar una carga tentativa viendo créditos y horas de estudio.
+- **Horarios y profesores**: al abrir un ramo se muestran sus secciones (profe, cátedra,
+  ayudantía, sala) si están cargadas en `horarios.js`. Se actualiza a mano cada semestre;
+  DocenciaWeb requiere login personal, por lo que no se puede scrapear automáticamente.
+- **⚖️ Comparar mallas**: dos mallas lado a lado mostrando ramos en común y exclusivos
+  de cada una. Útil para decidir entre licenciaturas (Admin vs Economía) o entre plan nuevo y anterior.
+- **✉ Reportar un error**: enlace en el pie que abre el correo con el contexto de la malla
+  ya rellenado, para avisar de datos incorrectos.
 - **🎓 Simular egreso**: eliges cuántos créditos tomas por semestre y proyecta en cuántos
   semestres terminas, respetando prerrequisitos, con el desglose de carga por semestre.
 
@@ -42,6 +49,7 @@ con su **Malla 2026** y su **malla anterior** (8 mallas en total).
 ## Archivos
 - `index.html` — la app completa (incluye la pantalla de bienvenida y meta tags Open Graph).
 - `data.js` — las 8 mallas.
+- `horarios.js` — horarios y profesores por ramo (editable a mano cada semestre; opcional).
 - `og.png` — imagen de previsualización al compartir el enlace (1200×630). Debe ir junto al index.
 
 ## Deploy
